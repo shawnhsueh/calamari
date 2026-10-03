@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.egg-info/
+data/cache/
+data/menus/
+data/batch_state.json
+.DS_Store
+.pytest_cache/
+.claude/

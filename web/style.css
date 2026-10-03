@@ -1,0 +1,130 @@
+.viz-root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f2f2f0;
+  --border: #e3e2de;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #7a7974;
+  --accent: #2a78d6;
+  --ring: #ffffff;
+  /* Ordinal price ramp, cheap -> pricey. Validated against the basemap (#ebebeb) with
+     dataviz validate_palette.js --ordinal. */
+  --bin-1: #6da7ec;
+  --bin-2: #3987e5;
+  --bin-3: #256abf;
+  --bin-4: #184f95;
+  --bin-5: #0d366b;
+}
+@media (prefers-color-scheme: dark) {
+  .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #262626;
+    --border: #383835;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e86;
+    --accent: #5598e7;
+    --ring: #1a1a19;
+    /* Dark steps run the other way so pricier = brighter. */
+    --bin-1: #1c5cab;
+    --bin-2: #2a78d6;
+    --bin-3: #5598e7;
+    --bin-4: #86b6ef;
+    --bin-5: #cde2fb;
+  }
+  /* Esri's dark canvas is mid-gray (#4d4d4f); dim it to ~#2a2a2b so the ramp clears 2:1. */
+  .leaflet-tile-pane { filter: brightness(0.55); }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  height: 100vh;
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+#map { height: 100%; background: var(--surface-2); }
+
+.panel {
+  overflow-y: auto;
+  padding: 20px 20px 16px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+h1 { font-size: 22px; margin: 0 0 6px; letter-spacing: -0.01em; }
+h1 .city { color: var(--text-secondary); font-weight: 400; }
+h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); margin: 0 0 8px; }
+.lede { margin: 0; color: var(--text-secondary); }
+.muted { color: var(--text-muted); font-weight: 400; }
+footer { font-size: 12px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat { display: flex; flex-direction: column; padding: 8px 10px; background: var(--surface-2); border-radius: 8px; }
+.stat-value { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 11px; color: var(--text-secondary); }
+
+.filters { display: flex; flex-direction: column; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+.field output { color: var(--text-primary); font-variant-numeric: tabular-nums; margin-left: 4px; }
+.field input[type="search"] {
+  font: inherit; font-size: 14px; color: var(--text-primary);
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-1);
+}
+.range-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.range-pair input { width: 100%; accent-color: var(--accent); }
+.check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); }
+.check input { accent-color: var(--accent); }
+
+.legend ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.legend li { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.legend .swatch { height: 10px; border-radius: 2px; }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li button {
+  all: unset; box-sizing: border-box; cursor: pointer; width: 100%;
+  display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center;
+  padding: 7px 6px; border-radius: 6px;
+}
+.list li button:hover, .list li button:focus-visible { background: var(--surface-2); }
+.list .dot { width: 10px; height: 10px; border-radius: 50%; }
+.list .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list .price { font-variant-numeric: tabular-nums; font-weight: 600; }
+.empty { color: var(--text-muted); padding: 8px 6px; }
+
+/* Leaflet controls, popups and tooltips follow the theme */
+.leaflet-bar a, .leaflet-control-attribution {
+  background: var(--surface-1) !important; color: var(--text-secondary) !important; border-color: var(--border) !important;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip, .leaflet-tooltip {
+  background: var(--surface-1); color: var(--text-primary); border-color: var(--border);
+}
+.leaflet-container { font: inherit; }
+.leaflet-container a { color: var(--accent); }
+.popup h3 { margin: 0 0 2px; font-size: 15px; }
+.popup .addr { color: var(--text-secondary); font-size: 12px; margin-bottom: 8px; }
+.popup .big { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.popup .dish { color: var(--text-secondary); margin-left: 6px; }
+.popup table { border-collapse: collapse; margin: 6px 0; font-size: 12px; }
+.popup td { padding: 1px 8px 1px 0; color: var(--text-secondary); }
+.popup td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+.popup .meta { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.popup .links { display: flex; gap: 12px; margin-top: 6px; }
+.badge { font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--surface-2); color: var(--text-secondary); }
+
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 55vh auto; height: auto; }
+  #map { height: 55vh; order: -1; }
+  .panel { border-right: 0; overflow: visible; }
+}

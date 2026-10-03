@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calamari Index · Vancouver</title>
+  <meta name="description" content="How pricey is that restaurant? Calamari prices across Vancouver, BC, on a map.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app viz-root">
+    <aside class="panel">
+      <header>
+        <h1>Calamari Index <span class="city">Vancouver</span></h1>
+        <p class="lede">Calamari is on almost every menu, so its price works as a quick way to compare how expensive restaurants are.</p>
+      </header>
+
+      <section class="stats" aria-label="Summary">
+        <div class="stat"><span class="stat-value" id="stat-count">–</span><span class="stat-label">restaurants</span></div>
+        <div class="stat"><span class="stat-value" id="stat-median">–</span><span class="stat-label">median</span></div>
+        <div class="stat"><span class="stat-value" id="stat-min">–</span><span class="stat-label">cheapest</span></div>
+        <div class="stat"><span class="stat-value" id="stat-max">–</span><span class="stat-label">priciest</span></div>
+      </section>
+
+      <section class="filters" aria-label="Filters">
+        <label class="field">
+          <span>Search</span>
+          <input type="search" id="search" placeholder="Restaurant name" autocomplete="off">
+        </label>
+        <div class="field">
+          <span>Price <output id="range-label"></output></span>
+          <div class="range-pair">
+            <input type="range" id="price-min" aria-label="Minimum price" step="1">
+            <input type="range" id="price-max" aria-label="Maximum price" step="1">
+          </div>
+        </div>
+        <label class="check">
+          <input type="checkbox" id="hide-low"> Hide low-confidence prices
+        </label>
+      </section>
+
+      <section class="legend" aria-label="Legend">
+        <h2>Calamari price (CAD)</h2>
+        <ol id="legend-bins"></ol>
+      </section>
+
+      <section class="list-section">
+        <h2>Restaurants by price <span class="muted" id="list-count"></span></h2>
+        <ol class="list" id="list"></ol>
+      </section>
+
+      <footer class="muted">
+        Prices are read automatically from restaurant websites and may be out of date. Click a restaurant to see its source menu.
+      </footer>
+    </aside>
+
+    <main id="map" aria-label="Map of calamari prices"></main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
