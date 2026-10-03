@@ -65,6 +65,12 @@ ChIJ...,,,true,closed
   `menu_not_found` / `fetch_failed` in `data/menu_status.jsonl` (some big chains, e.g. Cactus Club, return 403).
   These are the best candidates for manual overrides.
 - Chains often post one menu for all locations, so every location shows the same price.
+- **Sushi squid skews the low end.** The cheapest prices on the map ($8–$10) are mostly Japanese
+  restaurants, where the matched item is often *ika* (squid) nigiri or a small side, not a
+  calamari appetizer. These aren't comparable portions, so they pull the low end and the median
+  down. Possible fix: exclude sushi/nigiri pieces in the extraction prompt (`SYSTEM` in
+  `pipeline/extract.py`), then re-extract those restaurants with `extract --force`. Until then,
+  treat sub-$11 prices at sushi restaurants with caution, or exclude them in `data/overrides.csv`.
 
 ## Updating the site
 
